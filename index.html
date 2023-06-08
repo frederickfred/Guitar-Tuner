@@ -7,7 +7,7 @@
 
 body {
   margin: 0;
-  height: 100vh;
+  height: 95vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -19,6 +19,13 @@ body {
 .title {
   font-size: 32px;
   font-weight: 600;
+  margin-bottom: 0px;
+}
+
+.subtitle {
+  font-size: 20px;
+  font-style: italic;
+  font-weight: 600;
   margin-bottom: 20px;
 }
 
@@ -26,7 +33,7 @@ body {
   position: relative;
   width: 100%;
   height: calc(100% - 20px);
-  margin: 10px 0;
+  margin: 20px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -36,36 +43,38 @@ body {
   width: calc(50% - 10px);
   margin: 5px;
   font-family: 'Quicksand', sans-serif;
-  font-size: 32px;
+  font-size: 3vmin;
+  color: black;
   transition: background-color 0.3s ease;
 }
 
 .button-container button.stop {
-  background-color: red !important;
+  background-color: black !important;
+  color: white !important;
 }
 
 .button-container button.button1 {
-  background-color: #ed0987;
+  background-color: #87e3b4;
 }
 
 .button-container button.button2 {
-  background-color: #FF9800;
+  background-color: #a6b62d;
 }
 
 .button-container button.button3 {
-  background-color: #FFEB3B;
+  background-color: #f3a805;
 }
 
 .button-container button.button4 {
-  background-color: #4CAF50;
+  background-color: #d8a116;
 }
 
 .button-container button.button5 {
-  background-color: #03A9F4;
+  background-color: #7e9a66;
 }
 
 .button-container button.button6 {
-  background-color: #9C27B0;
+  background-color: #aa8cf6;
 }
 
 @media (orientation: portrait) {
@@ -84,13 +93,14 @@ body {
 </head>
 <body>
   <h1 class="title">Unnamed Guitar Piece Tuner</h1>
+  <h2 class="subtitle">Please make sure your iPad or Phone is not on silent mode</h2>
   <div class="button-container">
-    <button id="button1" class="button1">D (146.8hz)</button>
-    <button id="button2" class="button2">A (220.2hz)</button>
-    <button id="button3" class="button3">D (293.6hz)</button>
-    <button id="button4" class="button4">G Quarter-Sharp (403.7hz)</button>
-    <button id="button5" class="button5">C harmonic natural (513.8hz)</button>
-    <button id="button6" class="button6">E harmonic natural (660.6)</button>
+    <button id="button1" class="button1">D2</button>
+    <button id="button2" class="button2">A3</button>
+    <button id="button3" class="button3">D3</button>
+    <button id="button4" class="button4">G 1/4# 3</button>
+    <button id="button5" class="button5">C4 harm nat</button>
+    <button id="button6" class="button6">E5 harm nat</button>
   </div>
 
   <script>
