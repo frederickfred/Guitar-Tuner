@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Unnamed Guitar Piece Tuner</title>
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  font-family: 'Quicksand', sans-serif;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.button-container {
+  position: relative;
+  width: 100%;
+  height: calc(100% - 20px);
+  margin: 10px 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.button-container button {
+  width: calc(50% - 10px);
+  margin: 5px;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 32px;
+  transition: background-color 0.3s ease;
+}
+
+.button-container button.stop {
+  background-color: red !important;
+}
+
+.button-container button.button1 {
+  background-color: #ed0987;
+}
+
+.button-container button.button2 {
+  background-color: #FF9800;
+}
+
+.button-container button.button3 {
+  background-color: #FFEB3B;
+}
+
+.button-container button.button4 {
+  background-color: #4CAF50;
+}
+
+.button-container button.button5 {
+  background-color: #03A9F4;
+}
+
+.button-container button.button6 {
+  background-color: #9C27B0;
+}
+
+@media (orientation: portrait) {
+  .button-container button {
+    width: calc(50% - 10px);
+  }
+}
+
+@media (orientation: landscape) {
+  .button-container button {
+    width: calc(33.33% - 10px);
+  }
+}
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.12/Tone.js"></script>
+</head>
+<body>
+  <h1 class="title">Unnamed Guitar Piece Tuner</h1>
+  <div class="button-container">
+    <button id="button1" class="button1">D (146.8hz)</button>
+    <button id="button2" class="button2">A (220.2hz)</button>
+    <button id="button3" class="button3">D (293.6hz)</button>
+    <button id="button4" class="button4">G Quarter-Sharp (403.7hz)</button>
+    <button id="button5" class="button5">C harmonic natural (513.8hz)</button>
+    <button id="button6" class="button6">E harmonic natural (660.6)</button>
+  </div>
+
+  <script>
+    // Array to keep track of the button states
+    const buttonStates = [false, false, false, false, false, false];
+
+    // Start the audio context on user action
+    document.addEventListener('click', () => {
+      Tone.start();
+    });
+
+    // Add event listeners to the buttons
+    const frequencies = [146.8, 220.2, 293.6, 403.7, 513.8, 660.6];
+    const synths = [];
+    const volume = -12; // Adjust the volume here (-infinity to 0)
+    const gain = new Tone.Gain(Tone.dbToGain(volume)).toDestination();
+
+    for (let i = 0; i < frequencies.length; i++) {
+      const synth = new Tone.Synth({
+        oscillator: {
+          type: 'sine'
+        }
+      }).connect(gain);
+      synths.push(synth);
+
+      const button = document.getElementById('button' + (i + 1));
+      button.addEventListener('click', function() {
+        if (!buttonStates[i]) {
+          // Play the sine tone
+          buttonStates[i] = true;
+          this.textContent = 'Stop ' + this.textContent;
+          this.classList.add('stop');
+          synths[i].triggerAttack(Tone.Frequency(frequencies[i], 'hz'));
+        } else {
+          // Stop the sine tone
+          buttonStates[i] = false;
+          this.textContent = this.textContent.replace('Stop ', '');
+          this.classList.remove('stop');
+          synths[i].triggerRelease();
+        }
+      });
+    }
+
+    // Resize event listener to adjust button sizes
+    window.addEventListener('resize', () => {
+      const buttons = document.querySelectorAll('.button-container button');
+      const isPortrait = window.matchMedia('(orientation: portrait)').matches;
+      const containerWidth = document.querySelector('.button-container').offsetWidth;
+      const numCols = isPortrait ? 2 : 3;
+
+      buttons.forEach(button => {
+        const width = (containerWidth / numCols - 10);
+        button.style.width = width + 'px';
+      });
+    });
+
+    // Trigger initial resize to set button sizes
+    window.dispatchEvent(new Event('resize'));
+  </script>
+</body>
+</html>
